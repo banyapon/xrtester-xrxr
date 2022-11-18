@@ -19,6 +19,7 @@ AFRAME.registerComponent('movement-view', {
         var _newRotY = 0;
 
         var currentX, currentY;
+        var currentposX, currentposY;
 
         sceneEl.addEventListener('click', (e) => {
             e.preventDefault();
@@ -40,8 +41,8 @@ AFRAME.registerComponent('movement-view', {
                 isRotation = true;
                 rotX += e.deltaX * 2;
                 rotY += e.deltaY * 2;
-                _newRotX = (rotX / 50);
-                _newRotY = (rotY / 50);
+                _newRotX = (rotX / 2);
+                _newRotY = (rotY / 2);
                 currentX = _newRotX;
                 currentY = _newRotY;
             } else {
@@ -50,14 +51,17 @@ AFRAME.registerComponent('movement-view', {
                 posY -= e.deltaY * 2;
                 _newPosX = (posX / 100);
                 _newPosY = (posY / 100);
+                currentposX = _newPosX;
+                currentposY = _newPosY;
             }
             
             if (isRotation) {
                 console.log("currentX", currentX, "currentY", currentY);
-                camera.getAttribute('position', { x: currentX, y: this.y, z: currentY });
+                camera.getAttribute('position', { x: currentposX, y: this.y, z: currentposY });
                 rig.getAttribute('position', { x: currentY, y: currentX, z: 0 });
                 //Set Rotateion
-                rig.setAttribute('rotation', { x: currentY, y: currentX, z: this.z });
+                rig.setAttribute('rotation', { x: currentY, y: currentX, z: 0 });
+
             } else {
                 rig.getAttribute('rotation', { x: currentY, y: currentX, z: 0 });
                 camera.setAttribute('position', { x: _newPosX, y: this.y, z: _newPosY });
